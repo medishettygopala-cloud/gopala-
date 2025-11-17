@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saffron Trail – Indian Restaurant</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    #landing-page {
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1604908177522-3e4e3b2e8f8f') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      background-color: #b22222;
+    }
+    #landing-page h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+    #landing-page p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    #enter-button {
+      padding: 12px 24px;
+      font-size: 1em;
+      background-color: white;
+      color: #b22222;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #menu-page {
+      display: none;
+    }
+    header {
+      background-color: #b22222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      border-bottom: 2px solid #b22222;
+      padding-bottom: 5px;
+      color: #b22222;
+    }
+    .menu-section {
+      margin-bottom: 40px;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #ccc;
+    }
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    .item-name {
+      font-weight: bold;
+    }
+    .item-desc {
+      font-size: 0.9em;
+      color: #666;
+    }
+    .price {
+      white-space: nowrap;
+      margin-left: 20px;
+      color: #444;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f4e1d2;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Landing Page -->
+  <div id="landing-page">
+    <h1>🍛 Welcome to Saffron Trail</h1>
+    <p>Authentic Indian Cuisine for Families, Professionals & Tourists</p>
+    <button id="enter-button">View Menu</button>
+  </div>
+
+  <!-- Menu Page -->
+  <div id="menu-page">
+    <header>
+      <h1>🍛 Saffron Trail</h1>
+      <p>Authentic Indian Cuisine for Families, Professionals & Tourists</p>
+    </header>
+
+    <div class="container">
+      <!-- Your full menu content goes here (unchanged) -->
+      <!-- [STARTERS, MAIN COURSE, BIRYANI, BREADS, DESSERTS, BEVERAGES] -->
+      <!-- Keep your existing menu HTML inside this container -->
+    </div>
+
+    <footer>
+      📍 Visit us at MG Road, Hyderabad | 📞 +91 98765 43210 | 🌐 www.saffrontrail.in
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('enter-button').addEventListener('click', function() {
+      document.getElementById('landing-page').style.display = 'none';
+      document.getElementById('menu-page').style.display = 'block';
+    });
+  </script>
+  <div class="menu-section">
+  <h2>🥗 Starters</h2>
+
+  <div class="menu-item" style="align-items: center;">
+    <img src="paneer tikka.jpeg" alt="Paneer Tikka" style="width:100px; height:auto; margin-right:15px;">
+    <div style="flex:1">
+      <div class="item-name">Paneer Tikka</div>
+      <div class="item-desc">Grilled cottage cheese with tandoori spices</div>
+    </div>
+    <div class="price">₹130</div>
+  </div>
+
+  <div class="menu-item" style="align-items: center;">
+    <img src="chicken 65.jpeg" alt="Chicken 65" style="width:100px; height:auto; margin-right:15px;">
+    <div style="flex:1">
+      <div class="item-name">Chicken 65</div>
+      <div class="item-desc">Spicy South Indian fried chicken bites</div>
+    </div>
+    <div class="price">₹250</div>
+  </div>
+
+  <div class="menu-item" style="align-items: center;">
+    <img src="samosa.jpeg" alt="Samosa Chaat" style="width:100px; height:auto; margin-right:15px;">
+    <div style="flex:1">
+      <div class="item-name">Samosa Chaat</div>
+      <div class="item-desc">Crushed samosas with chutneys and yogurt</div>
+    </div>
+    <div class="price">₹50</div>
+</div>
+<div class="menu-section">
+  <h2>🍛 Main Course</h2>
+  <div class="menu-item" style="align-items:center;">
+    <img src="butter chicken.jpeg" alt="butter chicken" style="width:100px; height:auto; margin-right:15px;">
+    <div style="flex:2">
+      <div class="item-name">Butter Chicken</div>
+      <div class="item-desc">Creamy tomato-based chicken curry</div>
+    </div>
+    <div class="price">₹320</div>
+  </div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="palak paneer.jpeg" alt="palak paneer" style="width:100px; height:auto; margin-right:15px;">
+    <div style="flex:2">
+      <div class="item-name">Palak Paneer</div>
+      <div class="item-desc">Spinach gravy with cottage cheese</div>
+    </div>
+    <div class="price">₹260</div>
+  </div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="chana masala.jpeg"alt="chana masala" style="width:100px; height:auto; margin-right:15px;">
+    <div style="flex:2">
+      <div class="item-name">Chana Masala</div>
+      <div class="item-desc">Spicy chickpea curry</div>
+    </div>
+    <div class="price">₹240</div>
+  </div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="mutton rogan.jpeg" alt="mutton rogan" style="width:100px; height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Mutton Rogan Josh</div>
+    <div class="item-desc">Kashmiri-style lamb curry</div>
+  </div>
+  <div class="price">₹380</div>
+</div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="paneer butter masala.jpeg" alt="paneer butter masala" style="width:100px;height: auto; margin-right: 15px;">
+      <div style="flex:2">
+    <div class="item-name">Paneer Butter Masala</div>
+  <div class="item-desc">Rich tomato gravy with paneer</div>
+</div>
+  <div class="price">₹280</div>
+</div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="veg kurma.jpeg" alt="vegatible korma" style="width:100px;height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Vegetable Korma</div>
+  <div class="item-desc">Mixed vegetables in creamy coconut sauce</div>
+</div>
+  <div class="price">₹250</div>
+</div>
+</div>
+
+<div class="menu-section">
+  <h2>🍚 Biryani & Rice</h2>
+  <div class="menu-item" style="align-items:center;">
+    <img src="hyd chicken biryani.jpeg" alt="Hyderabadchicken biryani" style="width:100px;height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Hyderabadi Chicken Biryani</div><div class="item-desc">Fragrant rice layered with spiced chicken</div></div><div class="price">₹320</div></div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="veg dum biryani.jpeg" alt="vegatible dum biryani" style="width:100px;height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Vegetable Dum Biryani</div><div class="item-desc">Slow-cooked biryani with vegetables</div></div><div class="price">₹260</div></div>
+  <div class="menu-item" style="align-items:center;">
+     <img src="jeera rice.jpeg" alt="jeera rice" style="width:100px;height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Jeera Rice</div><div class="item-desc">Basmati rice tempered with cumin</div></div><div class="price">₹120</div></div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="steamed basmati rice.jpeg" alt="steamed Basmati" style="width:100px;height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Steamed Basmati Rice</div><div class="item-desc">Plain long-grain rice</div></div><div class="price">₹100</div></div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="egg fried rice.jpeg" alt="egg fried rice" style="width:100px;height: auto; margin-right: 15px;">
+    <div style="flex:2">
+    <div class="item-name">Egg Fried Rice</div><div class="item-desc">Indo-Chinese style rice with egg</div></div><div class="price">₹220</div></div>
+</div>
+
+<div class="menu-section">
+  <h2>🫓 Breads</h2>
+  <div class="menu-item">
+    <img src="butter naan.jpeg" alt="Butter Naan" width="100">
+    <div class="item-name">Butter Naan</div>
+    <div class="price">₹50</div>
+  </div>
+  <div class="menu-item">
+    <img src="garlic naan.jpeg" alt="Garlic Naan" width="100">
+    <div class="item-name">Garlic Naan</div>
+    <div class="price">₹60</div>
+  </div>
+  <div class="menu-item">
+    <img src="tandoori roti.jpeg" alt="Tandoori Roti" width="100">
+    <div class="item-name">Tandoori Roti</div>
+    <div class="price">₹40</div>
+  </div>
+
+  <div class="menu-item">
+    <img src="laccha paratha.jpeg" alt="Laccha Paratha" width="100">
+    <div class="item-name">Laccha Paratha</div>
+    <div class="price">₹60</div>
+  </div>
+
+  <div class="menu-item">
+    <img src="missi roti.jpeg" alt="Missi Roti" width="100">
+    <div class="item-name">Missi Roti</div>
+    <div class="price">₹45</div>
+  </div>
+</div>
+</div>
+
+<div class="menu-section">
+  <h2>🍨 Desserts</h2>
+  <div class="menu-item" style="align-items:center;">
+    <img src="gulab jamun.jpeg" alt="gulab jamun" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Gulab Jamun</div>
+    <div class="price">₹90</div>
+  </div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="rasmalai.jpeg" alt="Rasmalai" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Rasmalai</div>
+    <div class="price">₹110</div>
+  </div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="kulfi falooda.jpeg" alt="Kulfi Falooda" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Kulfi Falooda</div>
+    <div class="price">₹130</div>
+  </div>
+  <div class="menu-item" style="align-items:center;">
+    <img src="kesar pista ice cream.jpeg" alt="kesar pista ice cream" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Kesar Pista Ice Cream</div>
+    <div class="price">₹100</div>
+  </div>
+</div>
+
+<div class="menu-section">
+  <h2>🥤 Beverages</h2>
+  <div class="menu-item">
+    <img src="masala chai.jpeg" alt="masala chai" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Masala Chai</div><div class="price">₹40</div></div>
+  <div class="menu-item">
+    <img src="sweet or salted lassi.jpeg" alt="sweet/salted lassi" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Sweet/Salted Lassi</div><div class="price">₹60</div></div>
+  <div class="menu-item">
+    <img src="fresh lime soda.jpeg" alt="Fresh Lime Soda" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Fresh Lime Soda</div><div class="price">₹50</div></div>
+  <div class="menu-item">
+    <img src="cold coffee with ice cream.jpeg" alt="Cold coffee with ice cream" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Cold Coffee with Ice Cream</div><div class="price">₹90</div></div>
+  <div class="menu-item">
+    <img src="mango lassi.jpeg" alt="Mango lassi" style="width:100px;height: auto; margin-right: 15px;">
+    <div class="item-name">Mango Lassi</div><div class="price">₹80</div></div>
+</div>
+</body>
+</html>

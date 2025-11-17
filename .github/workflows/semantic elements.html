@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Semantic HTML Example</title>
+  <style>
+    /* Simple styles to visualize the sections */
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height: 1.5; margin: 0; padding: 0; color: #111; }
+    header, nav, main, article, section, aside, footer { padding: 1rem; }
+    header { background: #0b74de; color: white; }
+    nav { background: #f4f7fb; border-bottom: 1px solid #e2e8f0; }
+    .container { max-width: 960px; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: 1fr 280px; gap: 1rem; align-items: start; }
+    article { background: #fff; border: 1px solid #e6eefc; border-radius: 8px; }
+    aside { background: #fff; border: 1px solid #eef2f7; border-radius: 8px; padding: 1rem; }
+    footer { background: #f8fafc; color: #334155; font-size: 0.95rem; border-top: 1px solid #e6eefc; }
+    h1,h2,h3 { margin: .25rem 0 .5rem 0; }
+    p { margin: .25rem 0 .75rem 0; }
+    nav ul { list-style: none; margin: 0; padding: 0; display:flex; gap: .75rem; }
+    nav a { text-decoration: none; color: #064e9b; padding: .35rem .6rem; border-radius: 6px; }
+    nav a:hover { background: rgba(6,78,155,.06); }
+    figure { margin: 0; }
+    .meta { font-size: .9rem; color: #6b7280; }
+    .chip { display:inline-block; padding:.15rem .5rem; border-radius:999px; background:#eef2ff; color:#1e3a8a; font-size:.85rem; }
+    summary { cursor: pointer; font-weight: 600; }
+    address { font-style: normal; color:#475569; }
+    .read-more { display:inline-block; margin-top:.5rem; color:#0b74de; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <!-- Page header -->
+  <header>
+    <div class="container">
+      <h1>My Blog — Semantic HTML Demo</h1>
+      <p class="meta">Using semantic elements: &lt;header&gt;, &lt;nav&gt;, &lt;main&gt;, &lt;article&gt;, &lt;section&gt;, &lt;aside&gt;, &lt;footer&gt;, &lt;figure&gt;, &lt;figcaption&gt;, &lt;address&gt;, etc.</p>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav aria-label="Main site navigation">
+    <div class="container">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main content area -->
+  <main class="container" id="home" role="main">
+    <div class="grid" aria-live="polite">
+      <!-- Primary column -->
+      <article>
+        <header>
+          <h2>Understanding Semantic HTML</h2>
+          <p class="meta">Posted <time datetime="2025-10-11">October 11, 2025</time> • <span class="chip">Beginner</span></p>
+        </header>
+
+        <section aria-labelledby="intro">
+          <h3 id="intro">Why semantic tags matter</h3>
+          <p>
+            Semantic elements give meaning to web content for browsers, search engines, and assistive technologies.
+            They improve accessibility and make your markup easier to read and maintain.
+          </p>
+        </section>
+
+        <section aria-labelledby="examples">
+          <h3 id="examples">Common semantic elements (examples)</h3>
+          <ul>
+            <li><strong>&lt;header&gt;</strong> — page or section header</li>
+            <li><strong>&lt;nav&gt;</strong> — navigation links</li>
+            <li><strong>&lt;main&gt;</strong> — central content of the document</li>
+            <li><strong>&lt;article&gt;</strong> — self-contained composition (blog post, news)</li>
+            <li><strong>&lt;section&gt;</strong> — thematic grouping inside content</li>
+            <li><strong>&lt;aside&gt;</strong> — tangential content like sidebars</li>
+            <li><strong>&lt;footer&gt;</strong> — footer for a page or section</li>
+            <li><strong>&lt;figure&gt;</strong> &amp; <strong>&lt;figcaption&gt;</strong> — images with captions</li>
+            <li><strong>&lt;address&gt;</strong> — contact info</li>
+          </ul>
+        </section>
+
+        <figure>
+          <img src="https://via.placeholder.com/800x300?text=Semantic+HTML" alt="Illustration: Semantic HTML" style="max-width:100%;border-bottom-left-radius:8px;border-bottom-right-radius:8px;">
+          <figcaption>Figure: A simple illustration representing structured (semantic) HTML.</figcaption>
+        </figure>
+
+        <section aria-labelledby="extra">
+          <h3 id="extra">Extras: interactive and accessibility-boosting elements</h3>
+          <p>
+            Use <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> for progressive disclosure. Use
+            <code>&lt;time&gt;</code> with <code>datetime</code> for machine-readable dates.
+          </p>
+
+          <details>
+            <summary>Show accessibility tips</summary>
+            <ul>
+              <li>Always include descriptive <code>alt</code> text on images.</li>
+              <li>Use meaningful link text (avoid "click here").</li>
+              <li>Supply ARIA roles/labels when semantics are insufficient.</li>
+            </ul>
+          </details>
+
+          <p><a class="read-more" href="#articles">Read more articles →</a></p>
+        </section>
+      </article>
+
+      <!-- Sidebar / Aside -->
+      <aside aria-labelledby="sidebar-heading">
+        <h3 id="sidebar-heading">About the author</h3>
+        <p>Hi — I'm Dev. I write short articles about accessible web development and practical markup.</p>
+
+        <section aria-labelledby="latest">
+          <h4 id="latest">Latest posts</h4>
+          <ol>
+            <li><a href="#post1">Semantic Forms</a></li>
+            <li><a href="#post2">Accessible Images</a></li>
+            <li><a href="#post3">Keyboard Navigation</a></li>
+          </ol>
+        </section>
+
+        <section aria-labelledby="contact">
+          <h4 id="contact">Contact</h4>
+          <address>
+            Example Co.<br>
+            <a href="mailto:hello@example.com">hello@example.com</a><br>
+            <span class="meta">Twitter: <a href="https://twitter.com/example">@example</a></span>
+          </address>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Page footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Example Co. All rights reserved.</p>
+      <nav aria-label="Footer">
+        <ul style="display:flex; gap: .5rem; padding:0; list-style:none; margin:0;">
+          <li><a href="#privacy">Privacy</a></li>
+          <li><a href="#terms">Terms</a></li>
+          <li><a href="#sitemap">Sitemap</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

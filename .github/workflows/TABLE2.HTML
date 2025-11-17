@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Top / Left / Right Frames</title>
+  <style>
+    /* page center */
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: white;
+      margin: 0;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    /* outer container roughly same proportions as image */
+    .frame-container {
+      width: 760px;           /* change to taste */
+      border: 4px solid #111; /* black border around whole block */
+      box-sizing: border-box;
+    }
+
+    /* top frame */
+    .top {
+      background: #b71212;   /* dark red */
+      color: white;
+      text-align: center;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      letter-spacing: 1px;
+      box-sizing: border-box;
+      padding: 6px 12px;
+    }
+
+    /* bottom area holding two columns */
+    .bottom {
+      display: flex;
+      height: 230px;         /* change to taste */
+    }
+
+    .panel {
+      flex: 1;
+      background: #ff8c1a;   /* orange */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 26px;
+      box-sizing: border-box;
+      /* inner text style to mimic image's slightly rounded white text */
+      text-shadow: 0 1px rgba(0,0,0,0.15);
+    }
+
+    /* vertical divider between left/right */
+    .divider {
+      width: 4px;
+      background: #111; /* dark line like in image */
+    }
+
+    /* optional: slightly round corners to match look */
+    .frame-container { border-radius: 3px; overflow: hidden; }
+
+    /* responsive tweak for small screens */
+    @media (max-width: 520px) {
+      .frame-container { width: 95%; }
+      .top { font-size: 20px; height: 48px; }
+      .panel { font-size: 18px; height: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="frame-container">
+    <div class="top">Top Frame</div>
+
+    <div class="bottom">
+      <div class="panel">Left Frame</div>
+      <div class="divider" aria-hidden="true"></div>
+      <div class="panel">Right Frame</div>
+    </div>
+  </div>
+
+</body>
+</html>

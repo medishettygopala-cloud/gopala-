@@ -1,0 +1,58 @@
+INPUT:
+<html>
+<head>
+    <title>Flexbox Properties Demo</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            background: aliceblue;
+            padding: 30px;
+            min-height: 300px;
+        }
+        .item {
+            background: purple;
+            color: white;
+            font-size: 1.2em;
+            padding: 30px 40px;
+            border-radius: 8px;
+            flex: 1 1 120px;
+            text-align: center;
+            margin: 10px;
+        }
+        .item:nth-child(2) {
+            flex-grow: 2;
+            background: red;
+        }
+        .item:nth-child(3) {
+            align-self: flex-end;
+            background: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flexbox Properties Demonstration</h1>
+    <div class="container">
+        <div class="item">Object-1<br><small>flex: 1 1 120px</small></div>
+        <div class="item">Object-2<br><small>flex-grow: 2</small></div>
+        <div class="item">Object-3<br><small>align-self: flex-end</small></div>
+        <div class="item">Object-4</div>
+    </div>
+    <ul>
+        <li><b>Display: flex</b> — enables flexbox layout on the container.</li><br>
+        <li><b>Flex-direction</b> — sets the direction of items (row, column, etc.).</li><br>
+        <li><b>Flex-wrap</b> — allows items to wrap onto multiple lines.</li><br>
+        <li><b>Justify-content</b> — aligns items horizontally (space-around in this example).</li><br>
+        <li><b>Align-items</b> — aligns items vertically (center in this example).</li><br>
+        <li><b>Gap</b> — sets spacing between items.</li><br>
+        <li><b>Flex</b> — sets grow, shrink, and basis for items.</li><br>
+        <li><b>Flex-grow</b> — makes an item grow more than others.</li><br>
+        <li><b>Align-self</b> — overrides vertical alignment for a single item.</li>
+    </ul>
+</body>
+</html>
+

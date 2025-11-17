@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Submit Query Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            border: 2px solid black;
+            padding: 15px;
+            width: 500px;
+            margin: 40px auto;
+        }
+        label {
+            display: inline-block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="file"] {
+            width: 300px;
+            padding: 4px;
+            margin-top: 5px;
+        }
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        input[type="submit"] {
+            font-weight: bold;
+            padding: 6px 15px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<form>
+    <label>Enter Name of your friend</label>
+    <input type="text" name="friend"><br><br>
+
+    <label>Choose the file you want to post to your friend</label><br>
+    <input type="file" name="file"><br><br>
+
+    <label>What does the file contain?</label><br>
+    <input type="checkbox" name="content" value="image" checked> Image
+    <input type="checkbox" name="content" value="source" checked> Source code
+    <input type="checkbox" name="content" value="binary"> Binary code
+    <br><br>
+
+    <label>You have Completed the Form.</label>
+    <input type="submit" value="Submit Query">
+</form>
+
+</body>
+</html>
