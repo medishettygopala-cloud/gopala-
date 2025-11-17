@@ -1,0 +1,209 @@
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Bouncing Ball Animation — CSS @keyframes</title>
+<style>
+  :root{
+    --bg: #0f172a;
+    --ball: #3b82f6;
+    --size: 64px;         
+    --floor-height: 24px; 
+    --duration: 1s;          
+    --easing: cubic-bezier(.28,.84,.42,1);
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,var(--bg) 0%, #071020 100%);
+    color: #e6edf3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .stage{
+    width: min(480px, 90vw);
+    height: 360px;
+    position: relative;
+    border-radius: 12px;
+    padding: 24px;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    display:flex;
+    align-items:flex-end; 
+    justify-content:center;
+    overflow: hidden;
+  }
+
+
+  .floor{
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height: var(--floor-height);
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.02);
+    pointer-events:none;
+  }
+
+  .ball-wrap{
+    position: absolute;
+    bottom: calc(var(--floor-height) + 8px); 
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--size);
+    height: calc(100% - var(--floor-height) - 16px);
+    display:flex;
+    align-items:flex-end; 
+    justify-content:center;
+  }
+
+  .ball{
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: radial-gradient(120% 100% at 30% 25%, rgba(255,255,255,0.6), rgba(255,255,255,0.08) 8%, transparent 30%),
+                linear-gradient(180deg, color-mix(in srgb, var(--ball) 70%, black 10%), var(--ball));
+    display:block;
+    box-shadow:
+      0 10px 20px rgba(11,22,44,0.6),
+      0 2px 6px rgba(0,0,0,0.35) inset;
+    transform-origin: 50% 100%; 
+    will-change: transform, filter;
+    animation: bounce var(--duration) var(--easing) infinite;
+  }
+
+  .shadow{
+    position: absolute;
+    bottom: calc(var(--floor-height) + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(var(--size) * 0.9);
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0,0,0,0.45), rgba(0,0,0,0.10));
+    filter: blur(6px);
+    opacity: 0.9;
+    will-change: transform, opacity;
+    animation: shadow-scale var(--duration) var(--easing) infinite;
+    pointer-events:none;
+  }
+
+  .stage:hover .ball,
+  .stage:hover .shadow {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ball, .shadow {
+      animation: none;
+      transition: none;
+      transform: translateY(0) scaleY(1) scaleX(1);
+      opacity:1;
+    }
+  }
+
+  @keyframes bounce {
+    0%   { transform: translateY(0) scaleY(1) scaleX(1); }
+    10%  { transform: translateY(-12%) scaleY(0.95) scaleX(1.03); }  /* initial lift */
+    30%  { transform: translateY(-52%) scaleY(1.06) scaleX(0.94); }  /* top: slight stretch */
+    48%  { transform: translateY(-88%) scaleY(0.98) scaleX(1.02); }  /* highest point */
+    60%  { transform: translateY(-52%) scaleY(1.02) scaleX(0.98); }  /* mid */
+    75%  { transform: translateY(-12%) scaleY(0.98) scaleX(1.02); }  /* approaching ground */
+    85%  { transform: translateY(0) scaleY(0.75) scaleX(1.2); }      /* impact: squash */
+    92%  { transform: translateY(-18%) scaleY(1.08) scaleX(0.92); }  /* rebound (stretch) */
+    100% { transform: translateY(0) scaleY(1) scaleX(1); }          /* back to rest at floor */
+  }
+
+  @keyframes shadow-scale {
+    0%   { transform: scaleX(1); opacity: 1; filter: blur(6px); }
+    30%  { transform: scaleX(0.6); opacity: 0.5; filter: blur(8px); }
+    48%  { transform: scaleX(0.4); opacity: 0.25; filter: blur(10px); }
+    75%  { transform: scaleX(0.6); opacity: 0.5; filter: blur(8px); }
+    85%  { transform: scaleX(1.15); opacity: 0.95; filter: blur(4px); }
+    100% { transform: scaleX(1); opacity: 1; filter: blur(6px); }
+  }
+
+  .label{
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    font-size: 13px;
+    color: rgba(230,237,243,0.9);
+    letter-spacing: 0.2px;
+  }
+
+  .controls{
+    position:absolute;
+    top: 12px;
+    right: 12px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .btn{
+    background: rgba(255,255,255,0.04);
+    border: none;
+    color: #dbeafe;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size:13px;
+    cursor:pointer;
+    backdrop-filter: blur(6px);
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn[aria-pressed="true"]{ box-shadow: 0 6px 18px rgba(59,130,246,0.15); background: rgba(59,130,246,0.14); }
+  @media (max-height:420px){
+    .ball-wrap{ height: calc(220px - var(--floor-height)); }
+  }
+
+</style>
+</head>
+<body>
+  <div class="stage" role="img" aria-label="Animated bouncing ball demonstration. Hover to pause.">
+    <div class="label">CSS @keyframes — Bouncing Ball</div>
+
+    <div class="controls" aria-hidden="false">
+      <button class="btn" id="slower">Slower</button>
+      <button class="btn" id="faster">Faster</button>
+    </div>
+
+    <div class="ball-wrap" id="wrap">
+      <div class="ball" id="ball" aria-hidden="true"></div>
+    </div>
+
+    <div class="shadow" id="shadow" aria-hidden="true"></div>
+
+    <div class="floor" aria-hidden="true"></div>
+  </div>
+<script>
+  const slower = document.getElementById('slower');
+  const faster = document.getElementById('faster');
+  const root = document.documentElement;
+
+  function getDuration(){
+    const d = getComputedStyle(root).getPropertyValue('--duration').trim();
+    return parseFloat(d.replace('s','')) || 1;
+  }
+  slower.addEventListener('click', () => {
+    let d = getDuration();
+    d = Math.min(4, d + 0.2);
+    root.style.setProperty('--duration', d + 's');
+    slower.setAttribute('aria-pressed','true');
+    setTimeout(()=>slower.removeAttribute('aria-pressed'),200);
+  });
+  faster.addEventListener('click', () => {
+    let d = getDuration();
+    d = Math.max(0.2, d - 0.15);
+    root.style.setProperty('--duration', d + 's');
+    faster.setAttribute('aria-pressed','true');
+    setTimeout(()=>faster.removeAttribute('aria-pressed'),200);
+  });
+</script>
+</body>
+</html>

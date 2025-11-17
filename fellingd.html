@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Facial Emotion Detector</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js"></script>
+  <style>
+    #video { border: 1px solid #ccc; }
+    #emotion { font-size: 2em; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Scan Your Face & Detect Your Feelings</h2>
+  <video id="video" width="320" height="240" autoplay muted></video>
+  <div id="emotion"></div>
+
+  <script>
+    const video = document.getElementById('video');
+    const emotionDisplay = document.getElementById('emotion');
+
+    // Load models and start video
+    Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+      faceapi.nets.faceExpressionNet.loadFromUri('/models')
+    ]).then(startVideo);
+
+    function startVideo() {
+      navigator.mediaDevices.getUserMedia({ video: {} })
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.error(err));
+    }
+
+    video.addEventListener('play', () => {
+      const interval = setInterval(async () => {
+        const detections = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+          .withFaceExpressions();
+        if (detections) {
+          // Find the highest scored emotion
+          const expressions = detections.expressions;
+          const maxEmotion = Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
+          emotionDisplay.textContent = `Emotion: ${maxEmotion}`;
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

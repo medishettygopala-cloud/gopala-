@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>My Webpage</title>
+<style type="text/css">
+#main {
+width:800px;
+height:300px;
+border:1px solid blue;
+background-color: yellow;
+}
+#D1 {
+width:20px;
+height:20px;
+float:left;
+margin:100px;
+background-color: lightskyblue;
+transition:width 2s,heights 2s,ease 2s;
+}
+#D1:hover
+{
+background-color: red;
+width:200px;
+height:200px;}
+#D2 {
+width:20px;
+height:20px;
+float:left;
+margin: 100px;
+background-color: green;
+transition:linear 3s;
+transition-delay: 1s;
+}
+#D2:hover
+{
+background-color: blue;
+width:200px;
+height:200px;
+}#D3
+{
+width:20px;
+height:20px;
+float:left;
+margin:100px;
+background-color: maroon;
+transition-timing-function: linear;
+transition-duration: 3s;
+transition-delay: 1s;
+}
+#D3:hover
+{
+background-color: orange;
+width:200px;
+height:200px;
+}
+</style>
+</head>
+<body>
+<div id="main">
+<div id="D1"></div>
+<div id="D2"></div>
+<div id="D3"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>Article Upload Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 25px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 15px;
+        }
+        input[type="submit"],
+        input[type="reset"] {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="reset"] {
+            background-color: #f44336;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        input[type="reset"]:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+<form>
+    <h2>Article Upload Form</h2>
+    
+    <label for="author">Author Name:</label>
+    <input type="text" id="author" name="author" placeholder="Enter author name" required>
+    
+    <label for="filepath">File Path:</label>
+    <input type="file" id="filepath" name="filepath" required>
+    
+    <label>Type:</label>
+    <input type="radio" id="technical" name="type" value="Technical" required> Technical
+    <input type="radio" id="literary" name="type" value="Literary"> Literary
+    <input type="radio" id="general" name="type" value="General"> General
+    
+    <label for="subject">Subject Topic:</label>
+    <select id="subject" name="subject">
+        <option value="">--Select Subject--</option>
+        <option value="science">Science</option>
+        <option value="technology">Technology</option>
+        <option value="literature">Literature</option>
+        <option value="education">Education</option>
+        <option value="others">Others</option>
+    </select>
+    
+    <div class="buttons">
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+    </div>
+</form>
+
+</body>
+</html>

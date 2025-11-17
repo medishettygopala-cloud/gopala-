@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .register-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type=text], input[type=email], input[type=password] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type=submit] {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var name = document.forms["regForm"]["name"].value;
+            var email = document.forms["regForm"]["email"].value;
+            var pwd = document.forms["regForm"]["password"].value;
+            var error = "";
+
+            if (name == "" || email == "" || pwd == "") {
+                error = "All fields are required.";
+            } else if (pwd.length < 6) {
+                error = "Password must be at least 6 characters.";
+            }
+
+            if (error) {
+                document.getElementById("errorMsg").innerHTML = error;
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        <form name="regForm" onsubmit="return validateForm()">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+
+            <div class="error" id="errorMsg"></div>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</body>
+</html>

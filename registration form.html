@@ -1,0 +1,83 @@
+<html>
+<head>
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            width: 350px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 5px;
+        }
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+            width: 100%;
+            padding: 5px;
+        }
+        input[type="submit"], input[type="reset"] {
+            padding: 5px 10px;
+            margin-top: 10px;
+        }
+        .buttons {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Registration Form</h2>
+    <form>
+        <table>
+            <tr>
+                <td>Username</td>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td>Confirm Password</td>
+                <td><input type="password" name="confirm_password"></td>
+            </tr>
+            <tr>
+                <td>FirstName</td>
+                <td><input type="text" name="firstname"></td>
+            </tr>
+            <tr>
+                <td>LastName</td>
+                <td><input type="text" name="lastname"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="email"></td>
+            </tr>
+            <tr>
+                <td>Phone No</td>
+                <td><input type="tel" name="phone"></td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td><input type="text" name="location"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="buttons">
+                    <input type="submit" value="Save">
+                    <input type="reset" value="Reset">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
