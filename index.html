@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiotechSim - Enhanced Biogas Simulation Console</title>
+  <link rel="stylesheet" href="index.css?v=3.4">
+  <!-- Chart.js loaded locally for 100% offline file:// compatibility -->
+  <script src="chart.js"></script>
+</head>
+<body class="view-batch"> <!-- Default is Batch view -->
+
+  <div class="dashboard-container">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>BiotechSim v2.5</h1>
+          <p>Enhanced Biogas Solid Waste Simulator</p>
+        </div>
+      </div>
+      
+      <div class="header-controls">
+        <div class="tab-switcher">
+          <button id="tabBatch" class="tab-btn active" onclick="switchView('batch')">Batch Digestion (Kinetics)</button>
+          <button id="tabContinuous" class="tab-btn" onclick="switchView('continuous')">Continuous Reactor (Dynamic)</button>
+        </div>
+        <button class="btn-primary" onclick="exportDataCSV()">
+          <span>📤</span> Export CSV
+        </button>
+      </div>
+    </header>
+
+    <!-- TOP ROW: GLOWING KPI CARDS -->
+    <div class="kpi-grid">
+      <!-- METHANE YIELD -->
+      <div class="kpi-card green">
+        <div class="kpi-header">
+          <span>Cumulative Gas Yield</span>
+          <span class="kpi-icon">🌱</span>
+        </div>
+        <div class="kpi-value" id="kpiGasYield">0.0 m³</div>
+        <div class="kpi-trend up" id="kpiGasTrend">
+          <span>▲</span> <span id="kpiGasTrendVal">0.0% vs. Baseline</span>
+        </div>
+      </div>
+
+      <!-- METHANE PURITY -->
+      <div class="kpi-card blue">
+        <div class="kpi-header">
+          <span>Methane Purity (CH₄)</span>
+          <span class="kpi-icon">💧</span>
+        </div>
+        <div class="kpi-value" id="kpiMethanePurity">60.5%</div>
+        <div class="kpi-trend neutral" id="kpiPurityTrend">
+          <span>●</span> <span id="kpiPurityStatus">Optimal Quality</span>
+        </div>
+      </div>
+
+      <!-- CURRENT PH -->
+      <div class="kpi-card gold" id="pHCard">
+        <div class="kpi-header">
+          <span>Reactor pH</span>
+          <span class="kpi-icon">🧪</span>
+        </div>
+        <div class="kpi-value" id="kpiPH">7.15</div>
+        <div class="kpi-trend up" id="kpIPhTrend">
+          <span>●</span> <span id="kpIPhStatus">Mesophilic Optimum</span>
+        </div>
+      </div>
+
+      <!-- ECONOMIC ROI -->
+      <div class="kpi-card purple">
+        <div class="kpi-header">
+          <span>Est. Net Benefit</span>
+          <span class="kpi-icon">💰</span>
+        </div>
+        <div class="kpi-value" id="kpiNetBenefit">$0 / yr</div>
+        <div class="kpi-trend up" id="kpiBenefitTrend">
+          <span>▲</span> <span id="kpiCarbonOffset">0.0 t CO₂e Offset</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="dashboard-body">
+      
+      <!-- LEFT COLUMN: CONTROLS PANEL -->
+      <aside class="control-sidebar">
+        
+        <!-- FEEDSTOCK MIXER PANEL -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2><span>🌾</span> Feedstock Mixer</h2>
+            <span class="tooltip" title="Combine different solid wastes to balance the Carbon-to-Nitrogen (C/N) ratio and maximize volatile solids.">ℹ️</span>
+          </div>
+          
+          <div class="feedstock-mixer">
+            <!-- FOOD WASTE -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label"><span class="slider-dot dot-food"></span>Food Waste</span>
+                <span class="slider-val" id="valFood">40%</span>
+              </div>
+              <input type="range" class="slider-food" id="inputFood" min="0" max="100" value="40" oninput="updateFeedstockMix()">
+            </div>
+            
+            <!-- SEWAGE SLUDGE -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label"><span class="slider-dot dot-sludge"></span>Sewage Sludge</span>
+                <span class="slider-val" id="valSludge">20%</span>
+              </div>
+              <input type="range" class="slider-sludge" id="inputSludge" min="0" max="100" value="20" oninput="updateFeedstockMix()">
+            </div>
+            
+            <!-- CROP RESIDUE -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label"><span class="slider-dot dot-crop"></span>Crop Residues</span>
+                <span class="slider-val" id="valCrop">20%</span>
+              </div>
+              <input type="range" class="slider-crop" id="inputCrop" min="0" max="100" value="20" oninput="updateFeedstockMix()">
+            </div>
+            
+            <!-- CATTLE MANURE -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label"><span class="slider-dot dot-manure"></span>Cattle Manure</span>
+                <span class="slider-val" id="valManure">20%</span>
+              </div>
+              <input type="range" class="slider-manure" id="inputManure" min="0" max="100" value="20" oninput="updateFeedstockMix()">
+            </div>
+          </div>
+
+          <!-- Dynamic mixture analytics -->
+          <div class="mix-metrics">
+            <div class="mix-metric-row">
+              <span class="mix-metric-label">Composite C/N Ratio:</span>
+              <span class="mix-metric-val" id="mixCN">23.5</span>
+            </div>
+            <div class="mix-metric-row">
+              <span class="mix-metric-label">Total Solids (TS):</span>
+              <span class="mix-metric-val" id="mixTS">12.5%</span>
+            </div>
+            <div class="mix-metric-row">
+              <span class="mix-metric-label">Volatile Solids (VS):</span>
+              <span class="mix-metric-val" id="mixVS">82.0% of TS</span>
+            </div>
+            <div class="mix-metric-row">
+              <span class="mix-metric-label">Theoretical BMP:</span>
+              <span class="mix-metric-val highlight" id="mixBMP">385 L/kg VS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OPERATIONAL PARAMETERS -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2><span>⚙️</span> Reactor Operation</h2>
+          </div>
+          
+          <div class="feedstock-mixer">
+            <!-- TEMPERATURE -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label">Temperature (°C)</span>
+                <span class="slider-val" id="valTemp">37°C</span>
+              </div>
+              <input type="range" id="inputTemp" min="20" max="60" value="37" oninput="updateOperationParams()">
+            </div>
+
+            <!-- ORGANIC LOADING RATE (Continuous Only) -->
+            <div class="slider-group continuous-only">
+              <div class="slider-header">
+                <span class="slider-label">Organic Loading Rate (OLR)</span>
+                <span class="slider-val" id="valOLR">3.0 g COD/L/d</span>
+              </div>
+              <input type="range" id="inputOLR" min="0.5" max="10.0" step="0.5" value="3.0" oninput="updateOperationParams()">
+            </div>
+
+            <!-- RETENTION TIME / BATCH PERIOD -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label" id="labelRetention">Simulated Period (Days)</span>
+                <span class="slider-val" id="valRetention">30 Days</span>
+              </div>
+              <input type="range" id="inputRetention" min="10" max="60" value="30" oninput="updateOperationParams()">
+            </div>
+          </div>
+        </div>
+
+        <!-- ENHANCEMENT STRATEGIES Panel -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h2><span>🚀</span> Enhancement Center</h2>
+          </div>
+
+          <!-- PRE-TREATMENTS -->
+          <div class="enhancement-title">🔥 Feed Pre-Treatment</div>
+          <div class="toggle-switch-container">
+            <div class="toggle-info">
+              <span class="toggle-label">Thermal Hydrolysis</span>
+              <span class="toggle-desc">Speeds up organic matter dissolution</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="enhThermal" onchange="toggleEnhancement()">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-switch-container">
+            <div class="toggle-info">
+              <span class="toggle-label">Enzymatic Cocktail</span>
+              <span class="toggle-desc">Accelerates raw fiber breakdown</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="enhEnzymatic" onchange="toggleEnhancement()">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <!-- ADDITIVES -->
+          <div class="enhancement-group">
+            <div class="enhancement-title">🧪 Bioreactor Additives</div>
+            <div class="toggle-switch-container">
+              <div class="toggle-info">
+                <span class="toggle-label">Biochar Supplement (10g/L)</span>
+                <span class="toggle-desc">Accelerates methanogenesis (DIET)</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="enhBiochar" onchange="toggleEnhancement()">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-switch-container">
+              <div class="toggle-info">
+                <span class="toggle-label">Iron Oxide Nanoparticles</span>
+                <span class="toggle-desc">Enriches electro-active bacteria</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="enhNano" onchange="toggleEnhancement()">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-switch-container continuous-only">
+              <div class="toggle-info">
+                <span class="toggle-label">Bicarbonate Buffer (NaHCO₃)</span>
+                <span class="toggle-desc">Boosts pH protection/alkalinity</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="enhBuffer" onchange="toggleEnhancement()">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- RIGHT COLUMN: INTERACTIVE VISUALIZER & CHART SHEET -->
+      <main class="main-display">
+        
+        <!-- CHARTS SECTION -->
+        <div class="glass-panel charts-panel">
+          <div class="chart-header">
+            <h2 id="chartTitle">Cumulative Biogas Production</h2>
+            <span class="speed-badge active" id="runCompareBtn" onclick="toggleCompareMode()">Compare Baseline</span>
+          </div>
+
+          <div class="chart-container">
+            <canvas id="simulationChart"></canvas>
+          </div>
+        </div>
+
+        <!-- REACTOR EMERGENCY WARNING SYSTEM (Continuous Dynamic view only) -->
+        <div class="reactor-warning-banner continuous-only" id="reactorWarning" style="display:none;">
+          <div class="warning-icon">⚠️</div>
+          <div class="warning-text">
+            <h4 id="warningHeadline">Reactor Acidification Risk!</h4>
+            <p id="warningBody">VFA concentration is rising faster than methanogen consumption capacity. Bicarbonate buffer dosing is highly recommended to stabilize pH.</p>
+          </div>
+        </div>
+
+        <!-- VISUALIZER & GUIDE SPLIT ROW -->
+        <div class="visualizer-container">
+          
+          <!-- ANIME REACTOR TANK -->
+          <div class="glass-panel reactor-card">
+            <div class="reactor-label">Anaerobic Bioreactors</div>
+            
+            <div class="reactor-view">
+              <canvas id="reactorCanvas"></canvas>
+              <!-- Biogas burner assembly aligned to exhaust pipe -->
+              <div class="burner-assembly">
+                <div class="flame-container" id="flameContainer">
+                  <div class="flame" id="biogasFlame">
+                    <div class="flame-core"></div>
+                  </div>
+                </div>
+                <div class="burner-nozzle"></div>
+              </div>
+            </div>
+
+            <div class="reactor-label" id="reactorStatusText" style="font-size:11px; margin-top:8px; color:var(--color-green);">System Status: Stable</div>
+          </div>
+
+          <!-- REACTOR STEP EXPLAINER & SIMULATION PANEL -->
+          <div class="glass-panel visualizer-guide-card">
+            <div class="sim-controls-panel">
+              <div class="sim-btn-group">
+                <button class="sim-btn" id="btnPlay" onclick="playSimulation()" title="Play">▶</button>
+                <button class="sim-btn" id="btnPause" onclick="pauseSimulation()" title="Pause">⏸</button>
+                <button class="sim-btn" id="btnReset" onclick="resetSimulation()" title="Reset">🔄</button>
+              </div>
+              <div class="sim-speed-selector">
+                <label>Speed:</label>
+                <span class="speed-badge active" id="speed1x" onclick="setSimSpeed(1)">1x</span>
+                <span class="speed-badge" id="speed5x" onclick="setSimSpeed(5)">5x</span>
+                <span class="speed-badge" id="speed10x" onclick="setSimSpeed(10)">10x</span>
+                <span class="speed-badge" id="speed20x" onclick="setSimSpeed(20)">20x</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Guide explaining decomposition particles -->
+            <div style="margin-top:14px; flex-grow:1;">
+              <div class="guide-step active" id="guideStep1">
+                <div class="guide-step-num">1</div>
+                <div class="guide-step-text">
+                  <div class="guide-step-title">Hydrolysis (Decomposition)</div>
+                  <div class="guide-step-desc">Solid waste chunks (🟫) break down into soluble organic compounds (🟩). Speed depends on Pre-treatment.</div>
+                </div>
+              </div>
+              <div class="guide-step" id="guideStep2">
+                <div class="guide-step-num">2</div>
+                <div class="guide-step-text">
+                  <div class="guide-step-title">Acidogenesis</div>
+                  <div class="guide-step-desc">Acidogens (🦠) consume soluble COD and release Volatile Fatty Acids (VFA, 🟧), driving down pH.</div>
+                </div>
+              </div>
+              <div class="guide-step" id="guideStep3">
+                <div class="guide-step-num">3</div>
+                <div class="guide-step-text">
+                  <div class="guide-step-title">Methanogenesis (Gas Output)</div>
+                  <div class="guide-step-desc">Methanogens (⚪) convert VFAs to Methane bubbles (🫧). Biochar accelerates this electron transfer!</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Color key / legend for particles -->
+            <div class="particle-legends">
+              <div class="legend-item"><span class="legend-color" style="background:#854d0e;"></span>Solid Waste</div>
+              <div class="legend-item"><span class="legend-color" style="background:#10b981;"></span>Soluble COD</div>
+              <div class="legend-item"><span class="legend-color" style="background:#ef4444;"></span>VFA Acid</div>
+              <div class="legend-item"><span class="legend-color" style="background:#22d3ee;"></span>Methane Gas</div>
+              <div class="legend-item"><span class="legend-custom-icon" style="background:#eab308; border-radius:3px;"></span>Acidogens</div>
+              <div class="legend-item"><span class="legend-custom-icon" style="background:#ec4899; border-radius:50%;"></span>Methanogens</div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+    <!-- PRESET LOADER & ENVIRONMENT/ROI DASHBOARD -->
+    <div class="impact-panel">
+      <!-- Energy & Environmental Impact Calculator Grid -->
+      <div class="glass-panel">
+        <div class="panel-header">
+          <h2><span>📊</span> Energy & Environmental Impact Estimator</h2>
+        </div>
+        <div class="grid-2col">
+          <!-- ELECTRICITY GENERATED -->
+          <div class="impact-card">
+            <div class="impact-badge-icon green-icon">⚡</div>
+            <div class="impact-details">
+              <h4>Electricity Yield</h4>
+              <p id="calcElectricity">0.0 MWh / yr</p>
+            </div>
+          </div>
+
+          <!-- CARBON CREDIT EMISSION REDUCTIONS -->
+          <div class="impact-card">
+            <div class="impact-badge-icon blue-icon">🌍</div>
+            <div class="impact-details">
+              <h4>Carbon Offset</h4>
+              <p id="calcCarbon">0.0 t CO₂e / yr</p>
+            </div>
+          </div>
+
+          <!-- HOMES POWERED -->
+          <div class="impact-card">
+            <div class="impact-badge-icon gold-icon">🏡</div>
+            <div class="impact-details">
+              <h4>Equivalent Homes</h4>
+              <p id="calcHomes">0.0 Households</p>
+            </div>
+          </div>
+
+          <!-- BIOFERTILIZER OUTPUT -->
+          <div class="impact-card">
+            <div class="impact-badge-icon purple-icon">🍂</div>
+            <div class="impact-details">
+              <h4>Digestate Bio-fertilizer</h4>
+              <p id="calcFertilizer">0.0 tons / yr</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIMULATION PRESETS SELECTOR -->
+      <div class="glass-panel preset-selector">
+        <div class="panel-header">
+          <h2><span>🗂️</span> Scenario Presets</h2>
+        </div>
+        <button class="preset-btn active-preset" id="preset1" onclick="loadPreset('presetMunicipal')">Standard Municipal Co-Digester</button>
+        <button class="preset-btn" id="preset2" onclick="loadPreset('presetHighYield')">Enhanced High-Yield Food Co-Digestion</button>
+        <button class="preset-btn" id="preset3" onclick="loadPreset('presetAcidic')">Reactor Acidification Crash (Crisis)</button>
+        <button class="preset-btn" id="preset4" onclick="loadPreset('presetManureOnly')">Agricultural Cattle Manure Baseline</button>
+      </div>
+    </div>
+
+    <!-- SCIENCE & MATHEMATICS ACCORDION GUIDE -->
+    <section class="glass-panel educational-drawer">
+      <div class="drawer-toggle" onclick="toggleEducationalDrawer()">
+        <h3><span>📚</span> Bioreactor Scientific Principles & Formulas</h3>
+        <span id="drawerToggleIcon">▼</span>
+      </div>
+      
+      <div class="drawer-content" id="educationalDrawerContent" style="display:none;">
+        <div class="edu-section">
+          <h4>Modified Gompertz Batch kinetics</h4>
+          <p>Describes batch Biochemical Methane Potential (BMP) cumulative curves:</p>
+          <div class="math-eq">y(t) = P * exp(-exp( (Rm * e / P) * (λ - t) + 1 ))</div>
+          <p>Where <strong>P</strong> is maximum yield potential, <strong>Rm</strong> is max biogas rate, and <strong>λ</strong> is the initial lag phase. Enhancements like thermal hydrolysis reduce lag time and open cellular matrices, boosting active rates.</p>
+        </div>
+
+        <div class="edu-section">
+          <h4>Continuous 4-State Reactor ODE System</h4>
+          <p>Models continuous mass balances in a completely mixed reactor (CSTR):</p>
+          <div class="math-eq">dS/dt = D*(S_in - S) - kh * S * X_a</div>
+          <div class="math-eq">dSVFA/dt = D*(SVFA_in - SVFA) + Y_VFA * kh * S * X_a - (1/Y_m) * μ_m(SVFA, pH) * X_m</div>
+          <p><strong>pH Calculation:</strong> Bicarbonate Alkalinity neutralizes VFAs. Excess VFA levels destroy buffer capacity, dropping pH and slowing methanogen archaea growth, causing reactor failure.</p>
+        </div>
+
+        <div class="edu-section">
+          <h4>Enhancement Mechanisms</h4>
+          <p><strong>Thermal Hydrolysis:</strong> Breaks down complex lignin/hemicellulose barriers, increasing the hydrolysis rate constant ($k_h$) by up to 2.5x.</p>
+          <p><strong>Biochar Dosing:</strong> Serves as a conductive carbon backbone. Accelerates Direct Interspecies Electron Transfer (DIET) between syntrophic bacteria and methanogens, shielding archaea from volatile acid inhibition.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>BiotechSim v2.5 Console © 2026. Made with scientific rigor for enhanced waste recycling simulation.</p>
+    </footer>
+
+  </div>
+
+  <!-- LOAD THE MAIN SIMULATION CONTROLLER -->
+  <script src="simulation.js?v=3.4"></script>
+</body>
+</html>
